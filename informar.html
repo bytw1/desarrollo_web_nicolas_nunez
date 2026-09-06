@@ -1,1 +1,46 @@
-//Para subir los avistamientos de aves.
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Informar Avistamiento - Ornitólogos de Chile</title>
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <!-- Caja para mostrar errores o mensaje de éxito -->
+        <div id="val-box" hidden>
+            <h2 id="val-msg"></h2>
+            <ul id="val-list"></ul>
+        </div>
+        
+        <!-- Formulario sin atributo 'required' para forzar validación por JavaScript -->
+        <form name="informarForm" method="post" enctype="multipart/form-data" novalidate>
+            <label for="tipo-ave">Tipo de Ave (*)</label>
+            <select name="tipo-ave" id="tipo-ave">
+                <option value="">Seleccione un tipo...</option>
+                <option value="Raptor">Ave Rapaz</option>
+                <option value="Acuatica">Ave Acuática</option>
+                <option value="Canto">Ave de Canto / Passeriforme</option>
+                <option value="Marina">Ave Marina</option>
+                <option value="Otra">Otra</option>
+            </select><br>
+
+            <label for="nombre-ave">Nombre del Ave (*)</label>
+            <input type="text" name="nombre-ave" id="nombre-ave" placeholder="Ej: Bandurria, Picaflor, Condor"><br>
+
+            <label for="lugar">Lugar del Avistamiento (*)</label>
+            <input type="text" name="lugar" id="lugar" placeholder="Ej: Parque Metropolitano, Sector El Canelo"><br>
+
+            <label for="fecha-hora">Fecha y Hora (*)</label>
+            <input type="datetime-local" name="fecha-hora" id="fecha-hora"><br>
+            
+            <label for="archivos">Fotos o Videos del Avistamiento (*) (Al menos 1)</label>
+            <input type="file" name="archivos" id="archivos" multiple accept="image/*,video/*"><br>
+
+            <button id="submit-btn" type="button">Ingresar Avistamiento</button>
+        </form>
+    </div>
+    
+    <script src="./js/validation_informar.js"></script>
+</body>
+</html>
