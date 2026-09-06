@@ -1,77 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Voluntarios - Ornitólogos de Chile</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
 </head>
 <body>
+    <div class="main-container">
+        <!-- Caja de validación  -->
+        <div id="val-box" hidden>
+            <h2 id="val-msg"></h2>
+            <ul id="val-list"></ul>
+        </div>
+        
+        <!-- Formulario sin required, usando novalidate -->
+        <form name="myForm" method="post" novalidate>
+            <label for="nombre">Nombre Completo (*)</label>
+            <input type="text" name="nombre" id="nombre"><br>
 
-    <!-- Encabezado y Navegación -->
-    <header>
-        <h1>Unión de Ornitólogos de Chile</h1>
-        <nav>
-            <ul>
-                <li><a href="registro.html">Registro de Voluntarios</a></li>
-                <li><a href="informar.html">Informar Avistamiento</a></li>
-                <li><a href="listado.html">Listados</a></li>
-                <li><a href="indicadores.html">Indicadores</a></li>
-            </ul>
-        </nav>
-    </header>
+            <label for="email">Email (*)</label>
+            <input type="email" name="email" id="email"><br>
 
-    <!-- Contenido Principal -->
-    <main>
-        <section>
-            <h2>Registro de Nuevo Voluntario</h2>
-            <!-- Mensaje claro sobre datos obligatorios vs opcionales -->
-            <p>Los campos marcados con un asterisco (*) son <strong>obligatorios</strong>.</p>
+            <label for="celular">Celular (Opcional)</label>
+            <input type="text" name="celular" id="celular" placeholder="Ej: 987654321"><br>
             
-            <!-- Atributo novalidate para que el navegador no bloquee el formulario y fuerce la validación con js -->
-            <form id="form-registro" action="#" method="POST" novalidate>
-                
-                <!-- Uso de fieldset y legend para agrupar semánticamente los datos -->
-                <fieldset>
-                    <legend>Datos de Contacto</legend>
-                    
-                    <label for="nombre">Nombre completo (*):</label>
-                    <input type="text" id="nombre" name="nombre">
+            <label for="region">Región (*)</label>
+            <select name="region" id="region">
+                <option value="">Seleccione una región...</option>
+            </select><br>
 
-                    <label for="email">Correo electrónico (*):</label>
-                    <input type="email" id="email" name="email">
-
-                    <label for="celular">Teléfono Celular (Opcional):</label>
-                    <input type="tel" id="celular" name="celular">
-                </fieldset>
-
-                <fieldset>
-                    <legend>Dirección Postal</legend>
-                    
-                    <label for="region">Región (*):</label>
-                    <select id="region" name="region">
-                        <option value="">Seleccione una región...</option>
-                        <option value="RM">Región Metropolitana</option>
-                        <!-- Agrega el resto de las regiones -->
-                    </select>
-
-                    <label for="comuna">Comuna (*):</label>
-                    <select id="comuna" name="comuna">
-                        <option value="">Seleccione una comuna...</option>
-                        <!-- Agrega las comunas correspondientes -->
-                    </select>
-                </fieldset>
-
-                <button type="submit" id="btn-registrar">Registrar Voluntario</button>
-            </form>
-        </section>
-    </main>
-
-    <!-- Pie de página -->
-    <footer>
-        <p>&copy; 2026 Unión de Ornitólogos de Chile. Prototipo de Sistema de Avistamientos.</p>
-    </footer>
-
-    <script src="js/validaciones.js"></script>
+            <label for="comuna">Comuna (*)</label>
+            <select name="comuna" id="comuna">
+                <option value="">Seleccione una comuna...</option>
+            </select><br>
+            
+            <button id="submit-btn" type="button">Registrar Voluntario</button>
+        </form>
+    </div>
+    
+    <script src="./js/select.js"></script>
+    <script src="./js/validation.js"></script>
 </body>
 </html>
