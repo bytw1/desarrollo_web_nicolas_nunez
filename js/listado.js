@@ -1,10 +1,10 @@
 // Mock Data
 const avistamientos = [
-    { tipo: "Raptor", nombre: "Cernícalo", lugar: "Santiago (San Cristóbal)", fecha: "2026-03-01 10:30", foto: "🦅" },
+    { tipo: "Rapaz", nombre: "Cernícalo", lugar: "Santiago (San Cristóbal)", fecha: "2026-03-01 10:30", foto: "🦅" },
     { tipo: "Acuatica", nombre: "Pato Yeco", lugar: "Valparaíso (Muelle Prat)", fecha: "2026-03-02 14:15", foto: "🦆" },
     { tipo: "Canto", nombre: "Chincol", lugar: "Concepción (Plaza Acevedo)", fecha: "2026-03-03 08:00", foto: "🐦" },
     { tipo: "Marina", nombre: "Gaviota de Franklin", lugar: "Antofagasta (La Portada)", fecha: "2026-02-28 17:45", foto: "🕊️" },
-    { tipo: "Raptor", nombre: "Águila Mora", lugar: "Cajón del Maipo", fecha: "2026-02-25 11:00", foto: "🦅" },
+    { tipo: "Rapaz", nombre: "Águila Mora", lugar: "Cajón del Maipo", fecha: "2026-02-25 11:00", foto: "🦅" },
     { tipo: "Canto", nombre: "Loica", lugar: "Talca", fecha: "2026-03-04 12:20", foto: "🐦" },
     { tipo: "Acuatica", nombre: "Piscuiz", lugar: "Valdivia", fecha: "2026-03-05 09:10", foto: "🦆" }
 ];
