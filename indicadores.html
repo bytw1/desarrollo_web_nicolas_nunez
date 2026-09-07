@@ -1,1 +1,41 @@
-//métricas y gráficos.
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Indicadores y Métricas - Ornitólogos de Chile</title>
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <!-- Carga de Chart.js vía CDN para los gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="main-container" style="max-width: 700px;">
+        <h2>Indicadores del Sistema</h2>
+
+        <!-- Tarjetas de resumen de métricas -->
+        <div style="display: flex; gap: 10px; margin-bottom: 25px; text-align: center;">
+            <div style="flex: 1; padding: 10px; background: #eef; border-radius: 6px;">
+                <h3 style="margin:0;">124</h3>
+                <small>Voluntarios Registrados</small>
+            </div>
+            <div style="flex: 1; padding: 10px; background: #efe; border-radius: 6px;">
+                <h3 style="margin:0;">458</h3>
+                <small>Avistamientos Totales</small>
+            </div>
+        </div>
+
+        <!-- Contenedor del Gráfico 1 -->
+        <section style="margin-bottom: 30px;">
+            <h3>Avistamientos por Tipo de Ave</h3>
+            <canvas id="chart-tipos"></canvas>
+        </section>
+
+        <!-- Contenedor del Gráfico 2 -->
+        <section>
+            <h3>Registros de Voluntarios por Región</h3>
+            <canvas id="chart-regiones"></canvas>
+        </section>
+    </div>
+
+    <script src="./js/indicadores.js"></script>
+</body>
+</html>
