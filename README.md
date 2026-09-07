@@ -6,7 +6,7 @@
 **Estudiante:** Nicolás Núñez
 
 ## Descripción del Proyecto
-Prototipo frontend navegable para la gestión de voluntarios y reporte de avistamientos de aves en Chile. La interfaz está construida con HTML5 semántico, CSS3 y JavaScript vanilla.
+Prototipo frontend navegable para la gestión de voluntarios y reporte de avistamientos de aves en Chile. La interfaz está construida con HTML, CSS3 y JavaScript.
 
 ## Estructura de Páginas
 * `registro.html`: Formulario para la inscripción de nuevos voluntarios con selección en cascada de Región y Comuna.
