@@ -7,10 +7,12 @@
 </head>
 <body>
     <div class="main-container" style="max-width: 800px;">
-        <h2>Listado de Avistamientos</h2>
+        <h1>Listado de Avistamientos</h1>
 
         <!-- Panel de Filtros y Ordenamiento -->
         <section class="filtros-container" style="margin-bottom: 20px;">
+            <h2>Filtros y Ordenamiento</h2>
+            
             <label for="filtro-tipo">Filtrar por Tipo de Ave:</label>
             <select id="filtro-tipo">
                 <option value="todos">Todos los tipos</option>
@@ -30,18 +32,18 @@
         </section>
 
         <!-- Tabla de Resultados -->
-        <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
+        <!-- bordes en CSS (inline styles) -->
+        <table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
             <thead>
                 <tr>
-                    <th>Tipo</th>
-                    <th>Nombre Ave</th>
-                    <th>Lugar</th>
-                    <th>Fecha y Hora</th>
-                    <th>Vista Previa</th>
+                    <th style="border: 1px solid #ccc; padding: 8px;">Tipo</th>
+                    <th style="border: 1px solid #ccc; padding: 8px;">Nombre Ave</th>
+                    <th style="border: 1px solid #ccc; padding: 8px;">Lugar</th>
+                    <th style="border: 1px solid #ccc; padding: 8px;">Fecha y Hora</th>
+                    <th style="border: 1px solid #ccc; padding: 8px;">Vista Previa</th>
                 </tr>
             </thead>
             <tbody id="tabla-avistamientos">
-                
             </tbody>
         </table>
 
