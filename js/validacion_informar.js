@@ -19,7 +19,7 @@ const validateFechaHora = (dateTimeStr) => {
   // 1. No puede ser en el futuro
   if (fechaIngresada > ahora) return false;
 
-  // 2. No puede ser tan antigua (máximo 1 años atrá)
+  // 2. No puede ser tan antigua (máximo 1 año atrás)
   const haceUnAnos = new Date();
   haceUnAnos.setFullYear(ahora.getFullYear() - 1);
   if (fechaIngresada < haceUnAnos) return false;
@@ -27,7 +27,7 @@ const validateFechaHora = (dateTimeStr) => {
   return true;
 };
 
-// Adaptación de tu función original: exige al menos 1 archivo y que sean fotos o videos
+// exige al menos 1 archivo y que sean fotos o videos
 const validateFiles = (files) => {
   if (!files || files.length === 0) return false;
 
