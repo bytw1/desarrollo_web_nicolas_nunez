@@ -1,1 +1,58 @@
-//listings
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Avistamientos - Ornitólogos de Chile</title>
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+</head>
+<body>
+    <div class="main-container" style="max-width: 800px;">
+        <h2>Listado de Avistamientos</h2>
+
+        <!-- Panel de Filtros y Ordenamiento -->
+        <section class="filtros-container" style="margin-bottom: 20px;">
+            <label for="filtro-tipo">Filtrar por Tipo de Ave:</label>
+            <select id="filtro-tipo">
+                <option value="todos">Todos los tipos</option>
+                <option value="Raptor">Ave Rapaz</option>
+                <option value="Acuatica">Ave Acuática</option>
+                <option value="Canto">Ave de Canto / Passeriforme</option>
+                <option value="Marina">Ave Marina</option>
+            </select>
+
+            <label for="ordenar-por" style="margin-top: 10px;">Ordenar por:</label>
+            <select id="ordenar-por">
+                <option value="fecha-desc">Fecha (más reciente primero)</option>
+                <option value="fecha-asc">Fecha (más antigua primero)</option>
+                <option value="lugar-asc">Lugar (A-Z)</option>
+                <option value="nombre-asc">Nombre Ave (A-Z)</option>
+            </select>
+        </section>
+
+        <!-- Tabla de Resultados -->
+        <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Nombre Ave</th>
+                    <th>Lugar</th>
+                    <th>Fecha y Hora</th>
+                    <th>Vista Previa</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-avistamientos">
+                
+            </tbody>
+        </table>
+
+        <!-- Controles de Paginación -->
+        <div id="paginacion" style="margin-top: 15px; text-align: center; display: flex; justify-content: space-between; align-items: center;">
+            <button id="btn-prev">Anterior</button>
+            <span id="info-pagina">Página 1</span>
+            <button id="btn-next">Siguiente</button>
+        </div>
+    </div>
+
+    <script src="./js/listado.js"></script>
+</body>
+</html>
