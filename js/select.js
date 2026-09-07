@@ -1,9 +1,8 @@
-// diccionario de regiones
+// diccionario de regiones (datos de juguete)
 const data = {
     "Región de Valparaíso": ["Valparaíso", "Viña del Mar", "Quilpué", "Villa Alemana"],
     "Región Metropolitana": ["Santiago", "Puente Alto", "Maipú", "Providencia"],
     "Región del Biobío": ["Concepción", "Talcahuano", "San Pedro de la Paz", "Los Ángeles"]
-    // Puedes agregar más regiones y comunas aquí
 };
 
 const poblarRegiones = () => {
