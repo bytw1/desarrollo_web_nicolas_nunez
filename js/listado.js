@@ -47,7 +47,7 @@ const renderizar = () => {
     const paginaDatos = datosFiltrados.slice(inicio, fin);
 
     if (paginaDatos.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No se encontraron registros.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="texto-centrado">No se encontraron registros.</td></tr>`;
     } else {
         paginaDatos.forEach(item => {
             const tr = document.createElement("tr");
@@ -56,7 +56,7 @@ const renderizar = () => {
                 <td><strong>${item.nombre}</strong></td>
                 <td>${item.lugar}</td>
                 <td>${item.fecha}</td>
-                <td style="text-align: center; font-size: 20px;">${item.foto}</td>
+                <td class="col-foto">${item.foto}</td>
             `;
             tbody.appendChild(tr);
         });
