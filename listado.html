@@ -7,20 +7,21 @@
 </head>
 <body>
     <header>
-    <nav>
-        <ul>
-            <li><a href="registro.html">Registro de Voluntarios</a></li>
-            <li><a href="informar.html">Informar Avistamiento</a></li>
-            <li><a href="listado.html">Listado de Avistamientos</a></li>
-            <li><a href="indicadores.html">Indicadores y Estadísticas</a></li>
-        </ul>
-    </nav>
+        <nav>
+            <ul>
+                <li><a href="registro.html">Registro de Voluntarios</a></li>
+                <li><a href="informar.html">Informar Avistamiento</a></li>
+                <li><a href="listado.html">Listado de Avistamientos</a></li>
+                <li><a href="indicadores.html">Indicadores y Estadísticas</a></li>
+            </ul>
+        </nav>
     </header>   
-    <div class="main-container" style="max-width: 800px;">
+        <!-- clase para ancho -->
+    <div class="main-container listado-container">
         <h1>Listado de Avistamientos</h1>
 
         <!-- Panel de Filtros y Ordenamiento -->
-        <section class="filtros-container" style="margin-bottom: 20px;">
+        <section class="filtros-container">
             <h2>Filtros y Ordenamiento</h2>
             
             <label for="filtro-tipo">Filtrar por Tipo de Ave:</label>
@@ -32,7 +33,7 @@
                 <option value="Marina">Ave Marina</option>
             </select>
 
-            <label for="ordenar-por" style="margin-top: 10px;">Ordenar por:</label>
+            <label for="ordenar-por" class="label-espaciado">Ordenar por:</label>
             <select id="ordenar-por">
                 <option value="fecha-desc">Fecha (más reciente primero)</option>
                 <option value="fecha-asc">Fecha (más antigua primero)</option>
@@ -41,24 +42,23 @@
             </select>
         </section>
 
-        <!-- Tabla de Resultados -->
-        <!-- bordes en CSS (inline styles) -->
-        <table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
+        <!-- Tabla de Resultados sin estilos inline -->
+        <table>
             <thead>
                 <tr>
-                    <th style="border: 1px solid #ccc; padding: 8px;">Tipo</th>
-                    <th style="border: 1px solid #ccc; padding: 8px;">Nombre Ave</th>
-                    <th style="border: 1px solid #ccc; padding: 8px;">Lugar</th>
-                    <th style="border: 1px solid #ccc; padding: 8px;">Fecha y Hora</th>
-                    <th style="border: 1px solid #ccc; padding: 8px;">Vista Previa</th>
+                    <th>Tipo</th>
+                    <th>Nombre Ave</th>
+                    <th>Lugar</th>
+                    <th>Fecha y Hora</th>
+                    <th>Vista Previa</th>
                 </tr>
             </thead>
             <tbody id="tabla-avistamientos">
             </tbody>
         </table>
 
-        <!-- Controles de Paginación -->
-        <div id="paginacion" style="margin-top: 15px; text-align: center; display: flex; justify-content: space-between; align-items: center;">
+        <!-- Controles de Paginación  -->
+        <div id="paginacion">
             <button id="btn-prev">Anterior</button>
             <span id="info-pagina">Página 1</span>
             <button id="btn-next">Siguiente</button>
