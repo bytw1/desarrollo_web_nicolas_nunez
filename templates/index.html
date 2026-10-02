@@ -1,4 +1,36 @@
-@app.route('/')
-def index():
-    ultimos_avistamientos = Avistamiento.query.order_by(Avistamiento.id.desc()).limit(2).all()
-    return render_template('index.html', avistamientos=ultimos_avistamientos)
+{% extends "base.html" %}
+{% block title %}Inicio{% endblock %}
+{% block clase_main %} listado-container{% endblock %}
+
+{% block content %}
+    {% from "_macros.html" import miniatura %}
+    <h1>Ornitólogos de Chile</h1>
+    <p>¡Bienvenido! Esta plataforma reúne a voluntarios que registran los avistamientos de aves
+       en todo el país. Puede inscribirse como voluntario, informar un avistamiento o revisar las estadísticas.</p>
+
+    <section>
+        <h2>¿Qué desea hacer?</h2>
+        <div class="acciones">
+            <a class="btn" href="{{ url_for('registro') }}">Registrar voluntario</a>
+            <a class="btn" href="{{ url_for('informar') }}">Informar avistamiento</a>
+            <a class="btn" href="{{ url_for('indicadores') }}">Estadísticas</a>
+        </div>
+    </section>
+
+    <section>
+        <h2>Últimos avistamientos</h2>
+        {% for a in ultimos %}
+            <article class="resumen">
+                <div class="resumen-foto">{{ miniatura(a) }}</div>
+                <div>
+                    <h3><a href="{{ url_for('detalle', avistamiento_id=a.id) }}">{{ a.ave.nombre }}</a></h3>
+                    <p>{{ a.lugar }} · {{ a.fecha_hora|fechahora }}</p>
+                    <p>Informado por {{ a.voluntario.nombre }}</p>
+                </div>
+            </article>
+        {% else %}
+            <p>Aún no hay avistamientos registrados.</p>
+        {% endfor %}
+        <p><a href="{{ url_for('listado') }}">Ver todos los avistamientos</a></p>
+    </section>
+{% endblock %}
