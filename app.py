@@ -13,10 +13,11 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
 PAGE_SIZE = 5
 
+# Configuración de la aplicación Flask
 app = Flask(__name__)
 app.secret_key = "secret_key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 50 * 1000 * 1000  # 50 MB por envío
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1000 * 1000  # 50 MB por envío, no por archivo
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
