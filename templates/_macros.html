@@ -1,0 +1,10 @@
+{% macro miniatura(a) -%}
+    {%- set img = a.imagen_portada -%}
+    {%- if img -%}
+        <img class="miniatura" src="{{ url_for('static', filename=img.ruta_archivo) }}" alt="Foto de {{ a.ave.nombre }}">
+    {%- elif a.registros -%}
+        <span role="img" aria-label="Video">🎬</span>
+    {%- else -%}
+        —
+    {%- endif -%}
+{%- endmacro %}
