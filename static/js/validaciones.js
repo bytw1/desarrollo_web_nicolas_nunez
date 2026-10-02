@@ -1,99 +1,76 @@
-const validateName = (name) => {
-  if(!name) return false;
-  // Exigimos al menos 4 caracteres
-  let lengthValid = name.trim().length >= 4;
-  return lengthValid;
-}
-
-const validateEmail = (email) => {
-  if (!email) return false;
-  // validamos el formato con RegEx
-  let re = /^[\w.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-  let formatValid = re.test(email);
-  return formatValid;
-};
-
-const validatePhoneNumber = (phoneNumber) => {
-  // Como es opcional, si está vacío es válido
-  if (!phoneNumber) return true; 
-  
-  // Si el usuario escribe algo, aplicamos reglas
-  let lengthValid = phoneNumber.length >= 8;
-  let re = /^[0-9]+$/;
-  let formatValid = re.test(phoneNumber);
-  return lengthValid && formatValid;
-};
-
-const validateSelect = (select) => {
-  if(!select) return false;
-  return true;
-}
-
-const validateForm = () => {
-  // obtener elementos del DOM usando el nombre del formulario
-  let myForm = document.forms["myForm"];
-  let name = myForm["nombre"].value;
-  let email = myForm["email"].value;
-  let phoneNumber = myForm["celular"].value;
-  let region = myForm["region"].value;
-  let comuna = myForm["comuna"].value;
-
-  // variables auxiliares de validación y función
-  let invalidInputs = [];
-  let isValid = true;
-  const setInvalidInput = (inputName) => {
-    invalidInputs.push(inputName);
-    isValid &&= false;
+// Validación del formulario de registro de voluntarios del lado cliente.
+// Si todo es válido, el formulario se envía a Flask, que vuelve a validar.
+(() => {
+  const validateName = (name) => {
+    if (!name) return false;
+    // Exigimos al menos 4 caracteres
+    const largo = name.trim().length;
+    return largo >= 4 && largo <= 255;
   };
 
-  // lógica de validación
-  if (!validateName(name)) setInvalidInput("Nombre");
-  if (!validateEmail(email)) setInvalidInput("Email");
-  if (!validatePhoneNumber(phoneNumber)) setInvalidInput("Celular");
-  if (!validateSelect(region)) setInvalidInput("Región");
-  if (!validateSelect(comuna)) setInvalidInput("Comuna");
+  const validateEmail = (email) => {
+    if (!email) return false;
+    if (email.length > 80) return false;
+    // validamos el formato con RegEx (misma regla que el servidor)
+    const re = /^[\w.+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
+    return re.test(email);
+  };
 
-  // finalmente mostrar la validación
-  let validationBox = document.getElementById("val-box");
-  let validationMessageElem = document.getElementById("val-msg");
-  let validationListElem = document.getElementById("val-list");
+  const validatePhoneNumber = (phoneNumber) => {
+    // Como es opcional, si está vacío es válido
+    if (!phoneNumber) return true;
+    // Si el usuario escribe algo: solo dígitos, entre 8 y 15
+    return /^[0-9]{8,15}$/.test(phoneNumber);
+  };
 
-  if (!isValid) {
-    validationListElem.textContent = "";
-    // agregar elementos inválidos al elemento val-list
-    for (let input of invalidInputs) {
-      let listElement = document.createElement("li");
-      listElement.innerText = input;
-      validationListElem.append(listElement);
+  const validateSelect = (select) => {
+    if (!select) return false;
+    return true;
+  };
+
+  const validateForm = () => {
+    // obtener elementos del DOM usando el nombre del formulario
+    const myForm = document.forms["myForm"];
+    const name = myForm["nombre"].value;
+    const email = myForm["email"].value;
+    const phoneNumber = myForm["celular"].value;
+    const region = myForm["region"].value;
+    const comuna = myForm["comuna"].value;
+
+    // variables auxiliares de validación y función
+    const invalidInputs = [];
+    let isValid = true;
+    const setInvalidInput = (inputName) => {
+      invalidInputs.push(inputName);
+      isValid = false;
+    };
+
+    // lógica de validación
+    if (!validateName(name)) setInvalidInput("Nombre (entre 4 y 255 caracteres)");
+    if (!validateEmail(email)) setInvalidInput("Email (formato inválido)");
+    if (!validatePhoneNumber(phoneNumber)) setInvalidInput("Celular (solo números, entre 8 y 15 dígitos)");
+    if (!validateSelect(region)) setInvalidInput("Región");
+    if (!validateSelect(comuna)) setInvalidInput("Comuna");
+
+    const validationBox = document.getElementById("val-box");
+    const validationMessageElem = document.getElementById("val-msg");
+    const validationListElem = document.getElementById("val-list");
+
+    if (!isValid) {
+      validationListElem.textContent = "";
+      for (const input of invalidInputs) {
+        const listElement = document.createElement("li");
+        listElement.innerText = input;
+        validationListElem.append(listElement);
+      }
+      validationMessageElem.innerText = "Los siguientes campos son inválidos:";
+      validationBox.hidden = false;
+      validationBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    } else {
+      // Todo correcto en el cliente: se envían los datos a Flask
+      myForm.submit();
     }
-    // establecer val-msg y aplicar estilos de error
-    validationMessageElem.innerText = "Los siguientes campos son inválidos:";
-    validationBox.style.backgroundColor = "#ffdddd";
-    validationBox.style.borderLeftColor = "#f44336";
-    validationBox.hidden = false;
-  } else {
-    // Ocultar el formulario
-    myForm.style.display = "none";
-    validationListElem.textContent = "";
+  };
 
-    // establecer mensaje y aplicar tus estilos de éxito
-    validationMessageElem.innerText = "¡Voluntario registrado con éxito!";
-    validationBox.style.backgroundColor = "#ddffdd";
-    validationBox.style.borderLeftColor = "#4CAF50";
-
-    // Reutilizar tu botón de volver
-    let backButton = document.createElement("button");
-    backButton.innerText = "Volver y Registrar Otro";
-    backButton.addEventListener("click", () => {
-      myForm.reset(); // Limpia los campos
-      myForm.style.display = "block";
-      validationBox.hidden = true;
-    });
-
-    validationListElem.appendChild(backButton);
-    validationBox.hidden = false;
-  }
-};
-
-let submitBtn = document.getElementById("submit-btn");
-submitBtn.addEventListener("click", validateForm);
+  document.getElementById("submit-btn").addEventListener("click", validateForm);
+})();
