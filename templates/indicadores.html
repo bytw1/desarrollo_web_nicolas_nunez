@@ -1,52 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Indicadores y Métricas - Ornitólogos de Chile</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
-    <!-- Carga de Chart.js vía CDN para los gráficos -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+{% extends "base.html" %}
+{% block title %}Indicadores y Estadísticas{% endblock %}
 
-<body>
-    <header>
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('index') }}">Inicio</a></li>
-            <li><a href="{{ url_for('registro') }}">Registro de Voluntarios</a></li>
-            <li><a href="{{ url_for('informar') }}">Informar Avistamiento</a></li>
-            <li><a href="{{ url_for('listado') }}">Listado de Avistamientos</a></li>
-            <li><a href="{{ url_for('indicadores') }}">Indicadores y Estadísticas</a></li>
-        </ul>
-    </nav>
-    </header>
-    <div class="main-container" style="max-width: 700px;">
-        <h1>Indicadores y Métricas</h1>
-        <h2>Indicadores del Sistema</h2>
-        <!-- Tarjetas de resumen de métricas -->
-        <div style="display: flex; gap: 10px; margin-bottom: 25px; text-align: center;">
-            <div style="flex: 1; padding: 10px; background: #eef; border-radius: 6px;">
-                <h3 style="margin:0;">124</h3>
-                <small>Voluntarios Registrados</small>
-            </div>
-            <div style="flex: 1; padding: 10px; background: #efe; border-radius: 6px;">
-                <h3 style="margin:0;">458</h3>
-                <small>Avistamientos Totales</small>
-            </div>
-        </div>
-
-        <!-- Contenedor del Gráfico 1 -->
-        <section style="margin-bottom: 30px;">
-            <h3>Avistamientos por Tipo de Ave</h3>
-            <canvas id="chart-tipos"></canvas>
-        </section>
-
-        <!-- Contenedor del Gráfico 2 -->
-        <section>
-            <h3>Registros de Voluntarios por Región</h3>
-            <canvas id="chart-regiones"></canvas>
-        </section>
+{% block content %}
+    <h1>Indicadores y Métricas</h1>
+    <p>Esta sección estará disponible próximamente.</p>
+    <div class="acciones">
+        <a class="btn btn-secundario" href="{{ url_for('index') }}">Volver al inicio</a>
     </div>
-    <script src="{{ url_for('static', filename='js/indicadores.js') }}"></script>
-</body>
-</html>
+{% endblock %}

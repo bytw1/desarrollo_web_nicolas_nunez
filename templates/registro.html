@@ -1,57 +1,48 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Registro de Voluntarios - Ornitólogos de Chile</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('index') }}">Inicio</a></li>
-                <li><a href="{{ url_for('registro') }}">Registro de Voluntarios</a></li>
-                <li><a href="{{ url_for('informar') }}">Informar Avistamiento</a></li>
-                <li><a href="{{ url_for('listado') }}">Listado de Avistamientos</a></li>
-                <li><a href="{{ url_for('indicadores') }}">Indicadores y Estadísticas</a></li>
-            </ul>
-        </nav>
-    </header>
+{% extends "base.html" %}
+{% block title %}Registro de Voluntarios{% endblock %}
 
-    <div class="main-container">
-        <h1>Registro de usuarios - Ornitólogos de Chile</h1>
-        <!-- Caja de validación  -->
-        <div id="val-box" hidden>
-            <h2 id="val-msg">Mensaje del sistema</h2>
-            <ul id="val-list"></ul>
-        </div>
-        
-        <!-- Formulario sin required, usando novalidate -->
-        <form name="myForm" method="post" novalidate>
-            <label for="nombre">Nombre Completo (*)</label>
-            <input type="text" name="nombre" id="nombre"><br>
+{% block content %}
+    <h1>Registro de voluntarios - Ornitólogos de Chile</h1>
 
-            <label for="email">Email (*)</label>
-            <input type="email" name="email" id="email"><br>
-
-            <label for="celular">Celular (Opcional)</label>
-            <input type="text" name="celular" id="celular" placeholder="Ej: 987654321"><br>
-            
-            <label for="region">Región (*)</label>
-            <select name="region" id="region">
-                <option value="">Seleccione una región...</option>
-            </select><br>
-
-            <label for="comuna">Comuna (*)</label>
-            <select name="comuna" id="comuna">
-                <option value="">Seleccione una comuna...</option>
-            </select><br>
-            
-            <button id="submit-btn" type="button">Registrar Voluntario</button>
-        </form>
+    <!-- Caja de validación: la usa el JavaScript y también el servidor -->
+    <div id="val-box"{% if not errores %} hidden{% endif %}>
+        <h2 id="val-msg">{% if errores %}Los siguientes campos son inválidos:{% else %}Mensaje del sistema{% endif %}</h2>
+        <ul id="val-list">
+            {% for error in errores %}<li>{{ error }}</li>{% endfor %}
+        </ul>
     </div>
-    
+
+    <!-- novalidate: las reglas se validan por JavaScript (cliente) y por Flask (servidor) -->
+    <form name="myForm" method="post" action="{{ url_for('registro') }}" novalidate>
+        <label for="nombre">Nombre Completo (*)</label>
+        <input type="text" name="nombre" id="nombre" maxlength="255" value="{{ valores.get('nombre', '') }}">
+
+        <label for="email">Email (*)</label>
+        <input type="email" name="email" id="email" maxlength="80" value="{{ valores.get('email', '') }}">
+
+        <label for="celular">Celular (Opcional)</label>
+        <input type="text" name="celular" id="celular" maxlength="15" placeholder="Ej: 987654321" value="{{ valores.get('celular', '') }}">
+
+        <label for="region">Región (*)</label>
+        <select name="region" id="region">
+            <option value="">Seleccione una región...</option>
+            {% for r in regiones %}
+                <option value="{{ r.id }}"{% if valores.get('region') == r.id|string %} selected{% endif %}>{{ r.nombre }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="comuna">Comuna (*)</label>
+        <select name="comuna" id="comuna" data-seleccionada="{{ valores.get('comuna', '') }}">
+            <option value="">Seleccione una comuna...</option>
+        </select>
+
+        <button id="submit-btn" type="button">Registrar Voluntario</button>
+    </form>
+
+    <script type="application/json" id="datos-comunas">{{ comunas_por_region|tojson }}</script>
+{% endblock %}
+
+{% block javascript %}
     <script src="{{ url_for('static', filename='js/select.js') }}"></script>
     <script src="{{ url_for('static', filename='js/validaciones.js') }}"></script>
-</body>
-</html>
+{% endblock %}
