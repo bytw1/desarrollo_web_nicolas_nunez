@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Avistamiento de {{ a.ave.nombre }}{% endblock %}
+{% block clase_main %} listado-container{% endblock %}
+
+{% block content %}
+    <h1>{{ a.ave.nombre }}</h1>
+
+    <section>
+        <h2>Información del avistamiento</h2>
+        <dl class="detalle">
+            <dt>Fecha y hora</dt>
+            <dd>{{ a.fecha_hora|fechahora }}</dd>
+            <dt>Lugar</dt>
+            <dd>{{ a.lugar }}</dd>
+            <dt>Informado por</dt>
+            <dd>{{ a.voluntario.nombre }} ({{ a.voluntario.comuna.nombre }})</dd>
+            <dt>Descripción</dt>
+            <dd class="texto-multilinea">{{ a.descripcion or "Sin descripción." }}</dd>
+        </dl>
+    </section>
+
+    <section>
+        <h2>Fotos y videos</h2>
+        {% if a.registros %}
+            <div class="galeria">
+                {% for r in a.registros %}
+                    <figure>
+                        {% if r.es_video %}
+                            <video controls preload="metadata" src="{{ url_for('static', filename=r.ruta_archivo) }}">
+                                Su navegador no soporta video.
+                            </video>
+                        {% else %}
+                            <img src="{{ url_for('static', filename=r.ruta_archivo) }}" alt="Foto de {{ a.ave.nombre }}">
+                        {% endif %}
+                        <figcaption>{{ r.nombre_archivo }}</figcaption>
+                    </figure>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Este avistamiento no tiene archivos asociados.</p>
+        {% endif %}
+    </section>
+
+    <div class="acciones">
+        <a class="btn btn-secundario" href="{{ url_for('listado') }}">Volver al listado</a>
+    </div>
+{% endblock %}
