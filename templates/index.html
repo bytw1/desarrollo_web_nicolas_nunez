@@ -1,0 +1,4 @@
+@app.route('/')
+def index():
+    ultimos_avistamientos = Avistamiento.query.order_by(Avistamiento.id.desc()).limit(2).all()
+    return render_template('index.html', avistamientos=ultimos_avistamientos)
