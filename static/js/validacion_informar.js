@@ -1,107 +1,92 @@
-// Validación para textos simples (nombre del ave y lugar)
-const validateText = (text, minLength = 3) => {
-  if (!text) return false;
-  return text.trim().length >= minLength;
-};
+// Validación del formulario "Informar Avistamiento" (lado cliente).
+// Si todo es válido, el formulario se envía a Flask, que vuelve a validar.
+(() => {
+  const MAX_ARCHIVOS = 5;
+  const MAX_BYTES_TOTAL = 50 * 1024 * 1024; // igual que MAX_CONTENT_LENGTH en config.py
 
-// Validación del desplegable Tipo de Ave
-const validateSelect = (val) => {
-  return val !== "" && val !== null;
-};
-
-// Validación de fecha: no puede ser en el futuro ni más antigua que 5 años en el pasado
-const validateFechaHora = (dateTimeStr) => {
-  if (!dateTimeStr) return false;
-
-  const fechaIngresada = new Date(dateTimeStr);
-  const ahora = new Date();
-
-  // 1. No puede ser en el futuro
-  if (fechaIngresada > ahora) return false;
-
-  // 2. No puede ser tan antigua (máximo 1 año atrás)
-  const haceUnAnos = new Date();
-  haceUnAnos.setFullYear(ahora.getFullYear() - 1);
-  if (fechaIngresada < haceUnAnos) return false;
-
-  return true;
-};
-
-// exige al menos 1 archivo y que sean fotos o videos
-const validateFiles = (files) => {
-  if (!files || files.length === 0) return false;
-
-  // Máximo 5 archivos por entrega
-  if (files.length > 5) return false;
-
-  let typeValid = true;
-  for (const file of files) {
-    const fileFamily = file.type.split("/")[0];
-    // Debe ser de tipo 'image' o 'video'
-    typeValid &&= (fileFamily === "image" || fileFamily === "video");
-  }
-
-  return typeValid;
-};
-
-const validateForm = () => {
-  let form = document.forms["informarForm"];
-  let tipoAve = form["tipo-ave"].value;
-  let nombreAve = form["nombre-ave"].value;
-  let lugar = form["lugar"].value;
-  let fechaHora = form["fecha-hora"].value;
-  let archivos = form["archivos"].files;
-
-  let invalidInputs = [];
-  let isValid = true;
-
-  const setInvalid = (msg) => {
-    invalidInputs.push(msg);
-    isValid = false;
+  // Validación para textos simples (lugar)
+  const validateText = (text, minLength = 3, maxLength = 200) => {
+    if (!text) return false;
+    const largo = text.trim().length;
+    return largo >= minLength && largo <= maxLength;
   };
 
-  // Ejecución de validaciones
-  if (!validateSelect(tipoAve)) setInvalid("Tipo de ave");
-  if (!validateText(nombreAve, 3)) setInvalid("Nombre del ave (mínimo 3 caracteres)");
-  if (!validateText(lugar, 3)) setInvalid("Lugar del avistamiento");
-  if (!validateFechaHora(fechaHora)) setInvalid("Fecha y Hora (no puede ser futura ni mayor a 5 años atrás)");
-  if (!validateFiles(archivos)) setInvalid("Adjuntar foto/video (al menos 1 archivo válido de imagen o video)");
+  // Validación de los desplegables (voluntario y ave)
+  const validateSelect = (val) => val !== "" && val !== null;
 
-  // Mostrar resultados en la interfaz
-  let validationBox = document.getElementById("val-box");
-  let validationMessageElem = document.getElementById("val-msg");
-  let validationListElem = document.getElementById("val-list");
+  // Fecha: no puede ser futura ni anterior a 1 año atrás
+  const validateFechaHora = (dateTimeStr) => {
+    if (!dateTimeStr) return false;
 
-  if (!isValid) {
-    validationListElem.textContent = "";
-    for (let err of invalidInputs) {
-      let li = document.createElement("li");
-      li.innerText = err;
-      validationListElem.append(li);
+    const fechaIngresada = new Date(dateTimeStr);
+    if (isNaN(fechaIngresada.getTime())) return false;
+
+    const ahora = new Date();
+    if (fechaIngresada > ahora) return false;
+
+    const haceUnAnio = new Date();
+    haceUnAnio.setFullYear(ahora.getFullYear() - 1);
+    if (fechaIngresada < haceUnAnio) return false;
+
+    return true;
+  };
+
+  // Al menos 1 y máximo 5 archivos, todos imagen o video
+  const validateFiles = (files) => {
+    if (!files || files.length === 0) return false;
+    if (files.length > MAX_ARCHIVOS) return false;
+
+    let total = 0;
+    for (const file of files) {
+      const familia = file.type.split("/")[0];
+      if (familia !== "image" && familia !== "video") return false;
+      total += file.size;
     }
-    validationMessageElem.innerText = "Por favor corrija los siguientes campos:";
-    validationBox.style.backgroundColor = "#ffdddd";
-    validationBox.style.borderLeftColor = "#f44336";
-    validationBox.hidden = false;
-  } else {
-    form.style.display = "none";
-    validationListElem.textContent = "";
+    return total <= MAX_BYTES_TOTAL;
+  };
 
-    validationMessageElem.innerText = "¡Avistamiento registrado con éxito!";
-    validationBox.style.backgroundColor = "#ddffdd";
-    validationBox.style.borderLeftColor = "#4CAF50";
+  const validateForm = () => {
+    const form = document.forms["informarForm"];
+    const voluntario = form["voluntario_id"].value;
+    const ave = form["ave_id"].value;
+    const lugar = form["lugar"].value;
+    const fechaHora = form["fecha_hora"].value;
+    const descripcion = form["descripcion"].value;
+    const archivos = form["archivos"].files;
 
-    let backButton = document.createElement("button");
-    backButton.innerText = "Informar otro avistamiento";
-    backButton.addEventListener("click", () => {
-      form.reset();
-      form.style.display = "block";
-      validationBox.hidden = true;
-    });
+    const invalidInputs = [];
+    let isValid = true;
+    const setInvalid = (msg) => {
+      invalidInputs.push(msg);
+      isValid = false;
+    };
 
-    validationListElem.appendChild(backButton);
-    validationBox.hidden = false;
-  }
-};
+    if (!validateSelect(voluntario)) setInvalid("Voluntario");
+    if (!validateSelect(ave)) setInvalid("Ave");
+    if (!validateText(lugar, 3, 200)) setInvalid("Lugar del avistamiento (entre 3 y 200 caracteres)");
+    if (!validateFechaHora(fechaHora)) setInvalid("Fecha y hora (no puede ser futura ni anterior a 1 año atrás)");
+    if (descripcion.length > 500) setInvalid("Descripción (máximo 500 caracteres)");
+    if (!validateFiles(archivos)) setInvalid("Fotos/videos (entre 1 y 5 archivos de imagen o video, máximo 50 MB en total)");
 
-document.getElementById("submit-btn").addEventListener("click", validateForm);
+    const validationBox = document.getElementById("val-box");
+    const validationMessageElem = document.getElementById("val-msg");
+    const validationListElem = document.getElementById("val-list");
+
+    if (!isValid) {
+      validationListElem.textContent = "";
+      for (const err of invalidInputs) {
+        const li = document.createElement("li");
+        li.innerText = err;
+        validationListElem.append(li);
+      }
+      validationMessageElem.innerText = "Por favor corrija los siguientes campos:";
+      validationBox.hidden = false;
+      validationBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    } else {
+      // Todo correcto en el cliente: se envían los datos a Flask
+      form.submit();
+    }
+  };
+
+  document.getElementById("submit-btn").addEventListener("click", validateForm);
+})();
