@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Voluntario registrado{% endblock %}
+
+{% block content %}
+    <h1>¡Registro exitoso!</h1>
+    <div class="flash flash-exito" role="status">
+        {{ voluntario.nombre }}, ya eres parte de Ornitólogos de Chile. ¡Gracias por sumarte!
+    </div>
+    <p>¿Quieres registrar un avistamiento ahora?</p>
+    <div class="acciones">
+        <a class="btn" href="{{ url_for('informar', voluntario_id=voluntario.id) }}">Registrar un avistamiento</a>
+        <a class="btn btn-secundario" href="{{ url_for('index') }}">Continuar al inicio</a>
+    </div>
+{% endblock %}
