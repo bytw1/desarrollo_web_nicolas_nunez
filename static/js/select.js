@@ -1,41 +1,24 @@
-// diccionario de regiones (datos de juguete)
-const data = {
-    "Región de Valparaíso": ["Valparaíso", "Viña del Mar", "Quilpué", "Villa Alemana"],
-    "Región Metropolitana": ["Santiago", "Puente Alto", "Maipú", "Providencia"],
-    "Región del Biobío": ["Concepción", "Talcahuano", "San Pedro de la Paz", "Los Ángeles"]
-};
+// Cascada Región -> Comuna usando los datos que entrega Flask (desde la base de datos)
+(() => {
+    const regionSelect = document.getElementById("region");
+    const comunaSelect = document.getElementById("comuna");
+    const comunasPorRegion = JSON.parse(document.getElementById("datos-comunas").textContent);
 
-const poblarRegiones = () => {
-    let regionSelect = document.getElementById("region");
-    for (const region in data) {
-      let option = document.createElement("option");
-      option.value = region;
-      option.text = region;
-      regionSelect.appendChild(option);
-    }
-};
+    const poblarComunas = (regionId, seleccionada) => {
+        // Resetea la comuna y agrega la opción por defecto
+        comunaSelect.innerHTML = '<option value="">Seleccione una comuna...</option>';
 
-const updateComunas = () => {
-    let regionSelect = document.getElementById("region");
-    let comunaSelect = document.getElementById("comuna");
-    
-    let selectedRegion = regionSelect.value;
-    
-    // Resetea la comuna y agrega la opción por defecto
-    comunaSelect.innerHTML = '<option value="">Seleccione una comuna...</option>';
-    
-    if (data[selectedRegion]) {
-      data[selectedRegion].forEach(comuna => {
-        let option = document.createElement("option");
-        option.value = comuna;
-        option.text = comuna;
-        comunaSelect.appendChild(option);
-      });
-    }
-};
+        (comunasPorRegion[regionId] || []).forEach(comuna => {
+            const option = document.createElement("option");
+            option.value = comuna.id;
+            option.text = comuna.nombre;
+            if (String(comuna.id) === String(seleccionada)) option.selected = true;
+            comunaSelect.appendChild(option);
+        });
+    };
 
-document.getElementById("region").addEventListener("change", updateComunas);
+    regionSelect.addEventListener("change", () => poblarComunas(regionSelect.value, ""));
 
-window.onload = () => {
-    poblarRegiones();
-};
+    // Si el servidor devolvió el formulario con errores, se conservan región y comuna elegidas
+    poblarComunas(regionSelect.value, comunaSelect.dataset.seleccionada || "");
+})();
