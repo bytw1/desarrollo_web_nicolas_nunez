@@ -1,58 +1,49 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Informar Avistamiento - Ornitólogos de Chile</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-<body>
-    <header>
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('index') }}">Inicio</a></li>
-            <li><a href="{{ url_for('registro') }}">Registro de Voluntarios</a></li>
-            <li><a href="{{ url_for('informar') }}">Informar Avistamiento</a></li>
-            <li><a href="{{ url_for('listado') }}">Listado de Avistamientos</a></li>
-            <li><a href="{{ url_for('indicadores') }}">Indicadores y Estadísticas</a></li>
+{% extends "base.html" %}
+{% block title %}Informar Avistamiento{% endblock %}
+
+{% block content %}
+    <h1>Informar Avistamiento</h1>
+
+    <div id="val-box"{% if not errores %} hidden{% endif %}>
+        <h2 id="val-msg">{% if errores %}Por favor corrija los siguientes campos:{% else %}Mensaje del sistema{% endif %}</h2>
+        <ul id="val-list">
+            {% for error in errores %}<li>{{ error }}</li>{% endfor %}
         </ul>
-    </nav>
-    </header>
-    <div class="main-container">
-        <h1>Informar Avistamiento</h1>
-        <!-- Caja para mostrar errores o mensaje de éxito -->
-        <div id="val-box" hidden>
-            <h2 id="val-msg">Mensaje del sistema</h2>
-            <ul id="val-list"></ul>
-        </div>
-        
-        <!-- Formulario sin atributo 'required' para forzar validación por JavaScript -->
-        <form name="informarForm" method="post" enctype="multipart/form-data" novalidate>
-            <label for="tipo-ave">Tipo de Ave (*)</label>
-            <select name="tipo-ave" id="tipo-ave">
-                <option value="">Seleccione un tipo...</option>
-                <option value="Raptor">Ave Rapaz</option>
-                <option value="Acuatica">Ave Acuática</option>
-                <option value="Canto">Ave de Canto / Passeriforme</option>
-                <option value="Marina">Ave Marina</option>
-                <option value="Otra">Otra</option>
-            </select><br>
-
-            <label for="nombre-ave">Nombre del Ave (*)</label>
-            <input type="text" name="nombre-ave" id="nombre-ave" placeholder="Ej: Bandurria, Picaflor, Condor"><br>
-
-            <label for="lugar">Lugar del Avistamiento (*)</label>
-            <input type="text" name="lugar" id="lugar" placeholder="Ej: Parque Metropolitano, Sector El Canelo"><br>
-
-            <label for="fecha-hora">Fecha y Hora (*)</label>
-            <input type="datetime-local" name="fecha-hora" id="fecha-hora"><br>
-            
-            <label for="archivos">Fotos o Videos del Avistamiento (*) (Al menos 1)</label>
-            <input type="file" name="archivos" id="archivos" multiple accept="image/*,video/*"><br>
-
-            <button id="submit-btn" type="button">Ingresar Avistamiento</button>
-        </form>
     </div>
-    
+
+    <form name="informarForm" method="post" action="{{ url_for('informar') }}" enctype="multipart/form-data" novalidate>
+        <label for="voluntario_id">Voluntario (*)</label>
+        <select name="voluntario_id" id="voluntario_id">
+            <option value="">Seleccione un voluntario...</option>
+            {% for v in voluntarios %}
+                <option value="{{ v.id }}"{% if valores.get('voluntario_id') == v.id|string %} selected{% endif %}>{{ v.nombre }} ({{ v.comuna.nombre }})</option>
+            {% endfor %}
+        </select>
+
+        <label for="ave_id">Ave (*)</label>
+        <select name="ave_id" id="ave_id">
+            <option value="">Seleccione un ave...</option>
+            {% for ave in aves %}
+                <option value="{{ ave.id }}"{% if valores.get('ave_id') == ave.id|string %} selected{% endif %}>{{ ave.nombre }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="lugar">Lugar del Avistamiento (*)</label>
+        <input type="text" name="lugar" id="lugar" maxlength="200" placeholder="Ej: Parque Metropolitano, Sector El Canelo" value="{{ valores.get('lugar', '') }}">
+
+        <label for="fecha_hora">Fecha y Hora (*)</label>
+        <input type="datetime-local" name="fecha_hora" id="fecha_hora" value="{{ valores.get('fecha_hora', '') }}">
+
+        <label for="descripcion">Descripción (Opcional)</label>
+        <textarea name="descripcion" id="descripcion" rows="4" maxlength="500" placeholder="Comportamiento, cantidad de aves, etc.">{{ valores.get('descripcion', '') }}</textarea>
+
+        <label for="archivos">Fotos o Videos del Avistamiento (*) (entre 1 y {{ max_archivos }})</label>
+        <input type="file" name="archivos" id="archivos" multiple accept="image/*,video/*">
+
+        <button id="submit-btn" type="button">Ingresar Avistamiento</button>
+    </form>
+{% endblock %}
+
+{% block javascript %}
     <script src="{{ url_for('static', filename='js/validacion_informar.js') }}"></script>
-</body>
-</html>
+{% endblock %}
