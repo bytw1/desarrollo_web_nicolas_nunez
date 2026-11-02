@@ -32,9 +32,7 @@ Al final de la página hay un enlace para volver a la portada. Si un gráfico no
 
 ---
 
-# Tarea 2 (Flask + SQLAlchemy + MySQL)
-
-*(La Tarea 3 se construye sobre esta; sus decisiones están en la sección anterior.)*
+# Tarea 2 (Flask + SQLAlchemy + MySQL) *(La Tarea 3 se construye sobre esta)*
 
 ## Cómo ejecutar
 
@@ -58,7 +56,7 @@ Requisito: tener MySQL instalado y corriendo.
 
    El script `tarea2.sql` crea el usuario que usa la aplicación (`cc5002` / `programacionweb`, según el enunciado).
 
-   *Si ya tenías la base de la Tarea 2 con datos y solo quieres agregar los comentarios:* ejecutar únicamente `database/tabla-comentario.sql` (no borra nada).
+   ejecutar únicamente `database/tabla-comentario.sql` (no borra nada).
 
 3. **Ejecutar la aplicación** desde la raíz del proyecto:
    ```
