@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Buscador de Avistamientos - Ornitólogos de Chile</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" href="../static/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a th:href="@{/}" href="/">Buscador de Avistamientos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-container buscador-container">
+        <h1>Buscador de Avistamientos</h1>
+
+        <form id="form-buscador" class="filtros-container">
+            <label for="busqueda">Buscar por ave, voluntario o comuna:</label>
+            <input type="text" id="busqueda" name="q" maxlength="100" autocomplete="off"
+                   placeholder="Ej: aguilucho, María, Iquique">
+        </form>
+
+        <p id="estado" class="estado" role="status"></p>
+        <p id="aviso" class="aviso" role="alert"></p>
+
+        <div id="resultados"></div>
+    </main>
+
+    <script th:src="@{/js/buscador.js}" src="../static/js/buscador.js"></script>
+</body>
+</html>
