@@ -18,7 +18,7 @@
     let temporizador = null;
     let controlador = null;
 
-    // ---------- Texto sin tildes ni mayúsculas, con mapa hacia el texto original ----------
+    // Texto sin tildes ni mayúsculas, con mapa hacia el texto original 
 
     function normalizar(texto) {
         let norm = "";
@@ -56,7 +56,7 @@
         elemento.append(document.createTextNode(texto.slice(ultimo)));
     }
 
-    // ---------- Mensajes ----------
+    // mensajes
 
     function mostrarEstado(texto) {
         estado.textContent = texto;
@@ -66,7 +66,7 @@
         aviso.textContent = texto;
     }
 
-    // ---------- Tabla de resultados ----------
+    // tabla de resultados
 
     function textoNota(promedio) {
         return promedio === null || promedio === undefined ? "-" : formatoNota.format(promedio);
@@ -214,7 +214,7 @@
         resultados.append(contenedor);
     }
 
-    // ---------- Búsqueda en vivo ----------
+    // busqueda en vivo
 
     async function buscar() {
         const consulta = input.value.trim();
